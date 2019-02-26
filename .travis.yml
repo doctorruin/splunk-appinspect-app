@@ -3,6 +3,6 @@ language: python
 python:
   - "2.7"
 script:
-  - python helloworld.py
+  - python helloworld.py -p $splunk_pw
 on:
     branch: master
