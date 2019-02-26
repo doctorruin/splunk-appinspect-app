@@ -4,3 +4,5 @@ python:
   - "2.7"
 script:
   - python helloworld.py
+on:
+    branch: master
