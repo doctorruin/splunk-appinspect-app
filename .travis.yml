@@ -8,10 +8,11 @@ matrix:
     python: '2.7'
 python:
   - "2.7"
+before_install:
+  - tar -zcvf myapp.tgz myapp
 install:
   - pip install -r requirements.txt
 script:
-  - tar -zcvf myapp.tgz myapp
   - python bin/helloworld.py -p $splunk_pw
 on:
     branch: master
