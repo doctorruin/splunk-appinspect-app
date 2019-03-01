@@ -7,7 +7,7 @@ from requests.auth import HTTPBasicAuth
 
 def validate_app(auth_token):
     url = "https://appinspect.splunk.com/v1/app/validate"
-    file_path = "../myapp.tgz"
+    file_path = "myapp.tgz"
     user_token = auth_token
     app_name = os.path.basename(file_path)
 
