@@ -7,13 +7,13 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 
-def check_status(request_id):
+def check_status(request_id, headers):
     uri = "https://appinspect.splunk.com/v1/app/validate/status/" + request_id
 
     report_status_done = 0
 
     while report_status_done == 0:
-        response = requests.get(uri)
+        response = requests.get(uri, headers)
         print(response.json())
         response_status = response.json().get("status")
         if response_status != "SUCCESS":
@@ -26,9 +26,9 @@ def check_status(request_id):
     return
 
 
-def get_report(request_id):
+def get_report(request_id, headers):
     uri = "https://appinspect.splunk.com/v1/app/report/" + request_id
-    response = requests.get(uri)
+    response = requests.get(uri, headers)
 
     print (response.json)
 
@@ -49,7 +49,11 @@ def validate_app(auth_token):
     print(response.status_code)
     print(response.json())
 
-    check_status(response.json().get("request_id"))
+    request_id = response.json().get("request_id")
+
+    check_status(request_id, headers)
+
+    get_report(request_id, headers)
 
 
 def request_login_token(pw):
