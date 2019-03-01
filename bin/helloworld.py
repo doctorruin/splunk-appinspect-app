@@ -5,6 +5,13 @@ from requests_toolbelt.multipart.encoder import MultipartEncoder
 import requests
 from requests.auth import HTTPBasicAuth
 
+
+def check_status(request_id):
+    uri = "https://appinspect.splunk.com/v1/app/validate/status/" + request_id
+    response = requests.get(uri)
+
+    print(response)
+
 def validate_app(auth_token):
     url = "https://appinspect.splunk.com/v1/app/validate"
     file_path = "./myapp.tgz"
@@ -18,6 +25,8 @@ def validate_app(auth_token):
 
     print(response.status_code)
     print(response.json())
+
+    check_status(response.request.id)
 
 
 def request_login_token(pw):
