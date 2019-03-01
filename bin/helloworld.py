@@ -26,7 +26,7 @@ def validate_app(auth_token):
     print(response.status_code)
     print(response.json())
 
-    check_status(response.request.id)
+    check_status(response.request_id)
 
 
 def request_login_token(pw):
