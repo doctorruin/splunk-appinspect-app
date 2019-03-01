@@ -1,6 +1,7 @@
 import getopt
 import sys
 import os
+import time
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import requests
 from requests.auth import HTTPBasicAuth
@@ -13,9 +14,11 @@ def check_status(request_id):
 
     while report_status_done == 0:
         response = requests.get(uri)
+        print(response.json())
         response_status = response.json().get("status")
         if response_status != "SUCCESS":
             print("Report completion is still pending")
+            time.sleep(2)
         else:
             print("Report is complete!")
             report_status_done += 1
