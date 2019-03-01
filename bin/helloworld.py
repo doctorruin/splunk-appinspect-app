@@ -11,7 +11,7 @@ def validate_app(auth_token):
     user_token = auth_token
     app_name = os.path.basename(file_path)
 
-    fields = ({{('app_package', (app_name, open(file_path, "rb"))) }})
+    fields = {('app_package', (app_name, open(file_path, "rb")))}
     payload = MultipartEncoder(fields=fields)
     headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": payload.content_type, "max-messages": "all"}
     response = requests.request("POST", url, data=payload, headers=headers)
