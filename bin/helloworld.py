@@ -8,9 +8,27 @@ from requests.auth import HTTPBasicAuth
 
 def check_status(request_id):
     uri = "https://appinspect.splunk.com/v1/app/validate/status/" + request_id
+
+    report_status_done = 0
+
+    while report_status_done == 0:
+        response = requests.get(uri)
+        response_status = response.json().get("status")
+        if response_status != "SUCCESS":
+            print("Report completion is still pending")
+        else:
+            print("Report is complete!")
+            report_status_done += 1
+
+    return
+
+
+def get_report(request_id):
+    uri = "https://appinspect.splunk.com/v1/app/report/" + request_id
     response = requests.get(uri)
 
-    print(response)
+    print (response.json)
+
 
 def validate_app(auth_token):
     url = "https://appinspect.splunk.com/v1/app/validate"
@@ -20,13 +38,15 @@ def validate_app(auth_token):
 
     fields = {('app_package', (app_name, open(file_path, "rb")))}
     payload = MultipartEncoder(fields=fields)
-    headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": payload.content_type, "max-messages": "all"}
+    headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": payload.content_type,
+               "max-messages": "all"}
+
     response = requests.request("POST", url, data=payload, headers=headers)
 
     print(response.status_code)
     print(response.json())
 
-    check_status(response.request_id)
+    check_status(response.json().get("request_id"))
 
 
 def request_login_token(pw):
