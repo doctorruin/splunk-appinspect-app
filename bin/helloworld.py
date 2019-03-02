@@ -36,7 +36,7 @@ def get_report(request_id, user_token):
                "max-messages": "all"}
 
     response = requests.get(uri, headers=headers)
-    parsed = json.loads(response)
+    parsed = json.load(response.text)
 
     print (json.dumps(parsed, indent=4, sort_keys=True))
 
