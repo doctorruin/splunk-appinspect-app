@@ -44,7 +44,7 @@ def get_report(request_id, user_token):
 
     print(json.dumps(parsed["summary"]))
 
-    reports = json.loads(parsed["reports"])
+    reports = json.load(parsed["reports"])
 
     for attr, val in reports:
         print(attr, " : ", val)
