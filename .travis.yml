@@ -9,7 +9,7 @@ matrix:
 python:
   - "2.7"
 before_install:
-  - tar -C myap -zcvf myapp.tgz *
+  - tar -C myapp -zcvf myapp.tgz *
 install:
   - pip install -r requirements.txt
 script:
