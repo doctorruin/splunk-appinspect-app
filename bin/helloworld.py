@@ -38,12 +38,12 @@ def get_report(request_id, user_token):
 
     response = requests.get(uri, headers=headers)
 
-    parsed = json.loads(response)
+    parsed = response.json()
 
     # print (json.dumps(parsed, indent=4, sort_keys=True))
 
-    for check, val in parsed.iteritems:
-        print(check + ":" + val)
+    for key, val in parsed.iteritems:
+        print(key + ":" + val)
 
 
 
