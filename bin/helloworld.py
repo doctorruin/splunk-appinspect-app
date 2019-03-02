@@ -37,7 +37,7 @@ def get_report(request_id, user_token):
 
     response = requests.get(uri, headers=headers)
 
-    parsed = json.load(response.text)
+    parsed = json.loads(response.text)
 
     print (json.dumps(parsed, indent=4, sort_keys=True))
 
