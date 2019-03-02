@@ -42,15 +42,26 @@ def get_report(request_id, user_token):
 
     # print (json.dumps(parsed, indent=4, sort_keys=True))
 
-    print(json.dumps(parsed["summary"]))
+    print_report(parsed)
+    
 
-    for k, v in parsed["reports"][0].items():
+def print_report(report):
+    for summary, val in report["summary"].iteritems():
+        print summary, val
+    for k, v in report.iteritems():
         if k == "groups":
-            for f in v:
-                result = f["checks"][0]["result"]
-                if result == "failure":
-                    print json.dumps(f["checks"][0]["messages"][0]["message"])
-
+            for items in v:
+                for other, val in items.iteritems():
+                    if other == "checks":
+                        for checks in val:
+                            result = checks["result"]
+                            if result == "failure":
+                                for mess, stuff in checks.items():
+                                    if mess == "description":
+                                        print stuff
+                                    if mess == "messages":
+                                        for n in stuff:
+                                            print "\n Error: \n", n["message"]
 
 def validate_app(user_token):
     uri = "https://appinspect.splunk.com/v1/app/validate"
