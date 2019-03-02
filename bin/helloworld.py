@@ -13,7 +13,7 @@ def check_status(request_id, headers):
     report_status_done = 0
 
     while report_status_done == 0:
-        response = requests.get(uri, headers)
+        response = requests.get(uri, headers=headers)
         print(response.json())
         response_status = response.json().get("status")
         if response_status != "SUCCESS":
@@ -28,7 +28,7 @@ def check_status(request_id, headers):
 
 def get_report(request_id, headers):
     uri = "https://appinspect.splunk.com/v1/app/report/" + request_id
-    response = requests.get(uri, headers)
+    response = requests.get(uri, headers=headers)
 
     print (response.json)
 
