@@ -37,13 +37,12 @@ def get_report(request_id, user_token):
 
     response = requests.get(uri, headers=headers)
 
-    # parsed = json.loads(response.text)
+    parsed = json.loads(response.text)
 
     # print (json.dumps(parsed, indent=4, sort_keys=True))
 
-    for check in response:
-        for attribute in check:
-            print (attribute)
+    for check in parsed:
+        print (check)
 
 
 def validate_app(user_token):
