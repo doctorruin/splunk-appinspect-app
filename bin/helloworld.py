@@ -41,8 +41,8 @@ def get_report(request_id, user_token):
 
     # print (json.dumps(parsed, indent=4, sort_keys=True))
 
-    for check in response.json():
-        for attribute, value in check.items:
+    for check in response:
+        for attribute, value in check:
             print (attribute + " : " + value)
 
 
