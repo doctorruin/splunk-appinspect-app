@@ -7,13 +7,13 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 
-def check_status(request_id, basic_auth):
+def check_status(request_id, headers):
     uri = "https://appinspect.splunk.com/v1/app/validate/status/" + request_id
 
     report_status_done = 0
 
     while report_status_done == 0:
-        response = requests.get(uri, auth=basic_auth)
+        response = requests.get(uri, headers=headers)
         print(response.json())
         response_status = response.json().get("status")
         if response_status != "SUCCESS":
@@ -26,15 +26,15 @@ def check_status(request_id, basic_auth):
     return
 
 
-def get_report(request_id, basic_auth):
+def get_report(request_id, headers):
     uri = "https://appinspect.splunk.com/v1/app/report/" + request_id
-    response = requests.get(uri, auth=basic_auth)
+    response = requests.get(uri, headers=headers)
 
     print (response.json())
 
 
-def validate_app(auth_token, basic_auth):
-    url = "https://appinspect.splunk.com/v1/app/validate"
+def validate_app(auth_token):
+    uri = "https://appinspect.splunk.com/v1/app/validate"
     file_path = "./myapp.tgz"
     user_token = auth_token
     app_name = os.path.basename(file_path)
@@ -44,16 +44,16 @@ def validate_app(auth_token, basic_auth):
     headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": payload.content_type,
                "max-messages": "all"}
 
-    response = requests.request("POST", url, data=payload, headers=headers)
+    response = requests.request("POST", uri, data=payload, headers=headers)
 
     print(response.status_code)
     print(response.json())
 
     request_id = response.json().get("request_id")
 
-    check_status(request_id, basic_auth)
+    check_status(request_id, headers)
 
-    get_report(request_id, basic_auth)
+    get_report(request_id, headers)
 
 
 def request_login_token(pw):
@@ -62,7 +62,7 @@ def request_login_token(pw):
     response = requests.get(uri, auth=basic_auth)
     user_token = response.json().get("data").get("token")
     print(user_token)
-    validate_app(user_token, basic_auth)
+    validate_app(user_token)
 
 
 def main(argv):
