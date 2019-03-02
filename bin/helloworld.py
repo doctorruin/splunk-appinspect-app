@@ -45,9 +45,7 @@ def get_report(request_id, user_token):
     print(parsed["summary"])
 
     for attr, val1 in parsed["reports"].iteritems():
-        print(attr + " : " + val1)
-
-
+        print(attr, " : ", val1)
 
 
 def validate_app(user_token):
