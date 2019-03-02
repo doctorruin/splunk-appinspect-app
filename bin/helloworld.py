@@ -42,7 +42,9 @@ def get_report(request_id, user_token):
     # print (json.dumps(parsed, indent=4, sort_keys=True))
 
     for check in parsed:
-        print (check)
+        for attr, val in check:
+            if "summary" == attr == "reports":
+                print(attr + " : " + val)
 
 
 def validate_app(user_token):
