@@ -1,4 +1,5 @@
 import getopt
+import json
 import sys
 import os
 import time
@@ -17,7 +18,6 @@ def check_status(request_id, user_token):
 
     while report_status_done == 0:
         response = requests.get(uri, headers=headers)
-        print(response.json())
         response_status = response.json().get("status")
         if response_status != "SUCCESS":
             print("Report completion is still pending")
@@ -34,10 +34,11 @@ def get_report(request_id, user_token):
 
     headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": "application/json",
                "max-messages": "all"}
-    
-    response = requests.get(uri, headers=headers)
 
-    print (response.json())
+    response = requests.get(uri, headers=headers)
+    parsed = json.loads(response)
+
+    print (json.dumps(parsed, indent=4, sort_keys=True))
 
 
 def validate_app(user_token):
