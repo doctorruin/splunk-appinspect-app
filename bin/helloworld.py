@@ -7,13 +7,13 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 
-def check_status(request_id, headers):
+def check_status(request_id, basic_auth):
     uri = "https://appinspect.splunk.com/v1/app/validate/status/" + request_id
 
     report_status_done = 0
 
     while report_status_done == 0:
-        response = requests.get(uri, headers=headers)
+        response = requests.get(uri, auth=basic_auth)
         print(response.json())
         response_status = response.json().get("status")
         if response_status != "SUCCESS":
@@ -26,14 +26,14 @@ def check_status(request_id, headers):
     return
 
 
-def get_report(request_id, headers):
+def get_report(request_id, basic_auth):
     uri = "https://appinspect.splunk.com/v1/app/report/" + request_id
-    response = requests.get(uri, headers=headers)
+    response = requests.get(uri, auth=basic_auth)
 
-    print (response.json)
+    print (response.json())
 
 
-def validate_app(auth_token):
+def validate_app(auth_token, basic_auth):
     url = "https://appinspect.splunk.com/v1/app/validate"
     file_path = "./myapp.tgz"
     user_token = auth_token
@@ -44,24 +44,25 @@ def validate_app(auth_token):
     headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": payload.content_type,
                "max-messages": "all"}
 
-    response = requests.request("POST", url, data=payload, headers=headers)
+    response = requests.request("POST", url, data=payload, auth=basic_auth)
 
     print(response.status_code)
     print(response.json())
 
     request_id = response.json().get("request_id")
 
-    check_status(request_id, headers)
+    check_status(request_id, basic_auth)
 
-    get_report(request_id, headers)
+    get_report(request_id, basic_auth)
 
 
 def request_login_token(pw):
     uri = "https://api.splunk.com/2.0/rest/login/splunk"
-    response = requests.get(uri, auth=HTTPBasicAuth("rabeyta", pw))
+    basic_auth = HTTPBasicAuth("rabeyta", pw)
+    response = requests.get(uri, auth=basic_auth)
     user_token = response.json().get("data").get("token")
     print(user_token)
-    validate_app(user_token)
+    validate_app(user_token, basic_auth)
 
 
 def main(argv):
