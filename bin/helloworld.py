@@ -7,10 +7,13 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 
-def check_status(request_id, headers):
+def check_status(request_id, user_token):
     uri = "https://appinspect.splunk.com/v1/app/validate/status/" + request_id
 
     report_status_done = 0
+
+    headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": "application/json",
+               "max-messages": "all"}
 
     while report_status_done == 0:
         response = requests.get(uri, headers=headers)
@@ -26,17 +29,20 @@ def check_status(request_id, headers):
     return
 
 
-def get_report(request_id, headers):
+def get_report(request_id, user_token):
     uri = "https://appinspect.splunk.com/v1/app/report/" + request_id
+
+    headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": "application/json",
+               "max-messages": "all"}
+    
     response = requests.get(uri, headers=headers)
 
     print (response.json())
 
 
-def validate_app(auth_token):
+def validate_app(user_token):
     uri = "https://appinspect.splunk.com/v1/app/validate"
     file_path = "./myapp.tgz"
-    user_token = auth_token
     app_name = os.path.basename(file_path)
 
     fields = {('app_package', (app_name, open(file_path, "rb")))}
@@ -51,9 +57,9 @@ def validate_app(auth_token):
 
     request_id = response.json().get("request_id")
 
-    check_status(request_id, headers)
+    check_status(request_id, user_token)
 
-    get_report(request_id, headers)
+    get_report(request_id, user_token)
 
 
 def request_login_token(pw):
