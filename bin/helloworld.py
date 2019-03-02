@@ -44,7 +44,7 @@ def get_report(request_id, user_token):
 
     print(json.dumps(parsed["summary"]))
 
-    for k, v in parsed["reports"].items():
+    for k, v in parsed["reports"][0].items():
         if k == "groups":
             for f in v:
                 result = f["checks"][0]["result"]
