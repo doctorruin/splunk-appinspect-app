@@ -43,8 +43,8 @@ def get_report(request_id, user_token):
 
     for check in parsed:
         for attr in check:
-            if "summary" == attr == "reports":
-                print(attr)
+            print(attr)
+            if attr == "summary" or attr == "reports":
                 for val in attr:
                     print (val)
 
