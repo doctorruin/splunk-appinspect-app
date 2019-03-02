@@ -44,7 +44,7 @@ def validate_app(auth_token, basic_auth):
     headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": payload.content_type,
                "max-messages": "all"}
 
-    response = requests.request("POST", url, data=payload, auth=basic_auth)
+    response = requests.request("POST", url, data=payload, headers=headers)
 
     print(response.status_code)
     print(response.json())
