@@ -37,7 +37,7 @@ def get_report(request_id, user_token):
 
     response = requests.get(uri, headers=headers)
 
-    print (json.dumps(response, indent=4, sort_keys=True))
+    print (response.json(indent=4, sort_keys=True))
 
 
 def validate_app(user_token):
