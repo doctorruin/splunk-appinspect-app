@@ -44,7 +44,7 @@ def get_report(request_id, user_token):
 
     print(parsed["summary"])
 
-    for attr, val1 in parsed["reports"]:
+    for attr, val1 in parsed["reports"].iteritems():
         print(attr + " : " + val1)
 
 
