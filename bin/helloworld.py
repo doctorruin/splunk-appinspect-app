@@ -39,7 +39,11 @@ def get_report(request_id, user_token):
 
     parsed = json.loads(response.text)
 
-    print (json.dumps(parsed, indent=4, sort_keys=True))
+    # print (json.dumps(parsed, indent=4, sort_keys=True))
+
+    for check in parsed:
+        for attribute, value in check.items:
+            print (attribute + " : " + value)
 
 
 def validate_app(user_token):
@@ -54,9 +58,6 @@ def validate_app(user_token):
 
     response = requests.request("POST", uri, data=payload, headers=headers)
 
-    print(response.status_code)
-    print(response.json())
-
     request_id = response.json().get("request_id")
 
     check_status(request_id, user_token)
@@ -69,11 +70,11 @@ def request_login_token(pw):
     basic_auth = HTTPBasicAuth("rabeyta", pw)
     response = requests.get(uri, auth=basic_auth)
     user_token = response.json().get("data").get("token")
-    print(user_token)
-    validate_app(user_token)
+    return user_token
 
 
 def main(argv):
+    user_token = ''
     try:
         opts, args = getopt.getopt(argv, "hp:o:")
     except getopt.GetoptError:
@@ -81,7 +82,9 @@ def main(argv):
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-p':
-            request_login_token(arg)
+            user_token = request_login_token(arg)
+
+    validate_app(user_token)
 
 
 if __name__ == "__main__":
