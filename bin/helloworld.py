@@ -15,12 +15,13 @@ def check_status(request_id, user_token):
 
     headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": "application/json",
                "max-messages": "all"}
-
+    pending = "."
     while report_status_done == 0:
         response = requests.get(uri, headers=headers)
         response_status = response.json().get("status")
         if response_status != "SUCCESS":
-            print("Report completion is still pending")
+            print(pending)
+            pending += "."
             time.sleep(2)
         else:
             print("Report is complete!")
@@ -37,16 +38,13 @@ def get_report(request_id, user_token):
 
     response = requests.get(uri, headers=headers)
 
-    parsed = json.loads(response.text)
+    parsed = json.loads(response)
 
     # print (json.dumps(parsed, indent=4, sort_keys=True))
 
-    for check in parsed:
-        for attr in check:
-            print(attr)
-            if attr == "summary" or attr == "reports":
-                for val in attr:
-                    print (val)
+    for check, val in parsed.iteritems:
+        print(check + ":" + val)
+
 
 
 def validate_app(user_token):
