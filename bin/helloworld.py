@@ -42,10 +42,12 @@ def get_report(request_id, user_token):
 
     # print (json.dumps(parsed, indent=4, sort_keys=True))
 
-    print(parsed["summary"])
+    print(json.dumps(parsed["summary"]))
 
-    for attr in parsed["reports"]:
-        print(attr)
+    reports = json.loads(parsed["reports"])
+
+    for attr, val in reports:
+        print(attr, " : ", val)
 
 
 def validate_app(user_token):
