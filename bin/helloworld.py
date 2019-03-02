@@ -43,7 +43,7 @@ def get_report(request_id, user_token):
     # print (json.dumps(parsed, indent=4, sort_keys=True))
 
     print_report(parsed)
-    
+
 
 def print_report(report):
     for summary, val in report["summary"].iteritems():
