@@ -36,9 +36,8 @@ def get_report(request_id, user_token):
                "max-messages": "all"}
 
     response = requests.get(uri, headers=headers)
-    parsed = json.load(response.text)
 
-    print (json.dumps(parsed, indent=4, sort_keys=True))
+    print (json.dumps(response, indent=4, sort_keys=True))
 
 
 def validate_app(user_token):
