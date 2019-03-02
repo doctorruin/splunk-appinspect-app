@@ -48,7 +48,7 @@ def get_report(request_id, user_token):
 def print_report(report):
     for summary, val in report["summary"].iteritems():
         print summary, val
-    for k, v in report.iteritems():
+    for k, v in report["reports"].iteritems():
         if k == "groups":
             for items in v:
                 for other, val in items.iteritems():
