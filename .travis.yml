@@ -9,7 +9,7 @@ matrix:
 python:
   - "2.7"
 before_install:
-  - tar -zcvf  myapp.tgz myapp/* --exclude=".*"
+  - tar -zcvf  rabeyta_myapp.tgz rabeyta_myapp/* --exclude=".*"
 install:
   - pip install -r requirements.txt
 script:
