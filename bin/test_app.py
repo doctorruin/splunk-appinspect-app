@@ -72,6 +72,7 @@ def validate_app(user_token):
 
     request_id = response.json().get("request_id")
 
+    print(request_id)
     check_status(request_id, user_token)
 
     get_report(request_id, user_token)
