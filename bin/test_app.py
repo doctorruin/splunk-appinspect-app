@@ -59,6 +59,7 @@ def print_report(report):
 
 
 def validate_app(user_token):
+    print("token: " + user_token)
     uri = "https://appinspect.splunk.com/v1/app/validate"
     file_path = "./rabeyta_myapp.tgz"
     app_name = os.path.basename(file_path)
