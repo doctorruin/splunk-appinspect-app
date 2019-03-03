@@ -38,12 +38,12 @@ def get_report(request_id, user_token):
 
 
 def print_report(report):
-    for summary, val in report["summary"].iteritems():
+    for summary, val in report["summary"].items():
         print(summary, val)
-    for k, v in report["reports"][0].iteritems():
+    for k, v in report["reports"][0].items():
         if k == "groups":
             for items in v:
-                for other, val in items.iteritems():
+                for other, val in items.items():
                     if other == "checks":
                         for checks in val:
                             result = checks["result"]
