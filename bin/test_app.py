@@ -71,7 +71,7 @@ def validate_app(user_token):
                "max-messages": "all"}
 
     response = requests.request("POST", uri, data=payload, headers=headers)
-
+    print(response)
     request_id = response.json().get("request_id")
 
     print(request_id)
@@ -98,8 +98,6 @@ def main(argv):
                         help="Appinspect Tag. Multiple Tags supported (i.e. -t Cloud -t splunk_appinspect")
 
     args = parser.parse_args(argv)
-
-    print(args.user_token)
 
     validate_app(args.user_token)
 
