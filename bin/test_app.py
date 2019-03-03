@@ -1,10 +1,9 @@
 import getopt
-import json
 import sys
 import os
 import time
-from requests_toolbelt.multipart.encoder import MultipartEncoder
 import requests
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 from requests.auth import HTTPBasicAuth
 
 
@@ -15,13 +14,10 @@ def check_status(request_id, user_token):
 
     headers = {"Authorization": "bearer {}".format(user_token), "Content-Type": "application/json",
                "max-messages": "all"}
-    pending = "."
     while report_status_done == 0:
         response = requests.get(uri, headers=headers)
         response_status = response.json().get("status")
         if response_status != "SUCCESS":
-            print(pending)
-            pending += "."
             time.sleep(2)
         else:
             print("Report is complete!")
@@ -37,17 +33,13 @@ def get_report(request_id, user_token):
                "max-messages": "all"}
 
     response = requests.get(uri, headers=headers)
-
     parsed = response.json()
-
-    # print (json.dumps(parsed, indent=4, sort_keys=True))
-
     print_report(parsed)
 
 
 def print_report(report):
     for summary, val in report["summary"].iteritems():
-        print summary, val
+        print(summary, val)
     for k, v in report["reports"][0].iteritems():
         if k == "groups":
             for items in v:
@@ -58,10 +50,11 @@ def print_report(report):
                             if result == "failure":
                                 for mess, stuff in checks.items():
                                     if mess == "description":
-                                        print stuff
+                                        print(stuff)
                                     if mess == "messages":
                                         for n in stuff:
-                                            print "\n Error: \n", n["message"]
+                                            print("\n Error: \n", n["message"])
+
 
 def validate_app(user_token):
     uri = "https://appinspect.splunk.com/v1/app/validate"
@@ -95,7 +88,7 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv, "hp:o:")
     except getopt.GetoptError:
-        print 'helloworld.py -p <password>'
+        print('test_app.py -p <password>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-p':
