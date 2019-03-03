@@ -71,10 +71,8 @@ def validate_app(user_token):
                "max-messages": "all"}
 
     response = requests.request("POST", uri, data=payload, headers=headers)
-    print(response)
     request_id = response.json().get("request_id")
 
-    print(request_id)
     check_status(request_id, user_token)
 
     get_report(request_id, user_token)
@@ -99,7 +97,9 @@ def main(argv):
 
     args = parser.parse_args(argv)
 
-    validate_app(args.user_token)
+    token = request_login_token(args.user_token)
+
+    validate_app(token)
 
 
 if __name__ == "__main__":
