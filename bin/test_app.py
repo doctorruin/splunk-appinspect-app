@@ -98,6 +98,8 @@ def main(argv):
 
     args = parser.parse_args(argv)
 
+    print(args)
+
     validate_app(args.user_token)
 
 
