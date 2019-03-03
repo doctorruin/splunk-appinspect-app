@@ -8,7 +8,6 @@ from requests.auth import HTTPBasicAuth
 
 
 def check_status(request_id, user_token):
-    print("status: " + user_token)
     uri = "https://appinspect.splunk.com/v1/app/validate/status/" + request_id
 
     report_status_done = 0
@@ -60,7 +59,6 @@ def print_report(report):
 
 
 def validate_app(user_token):
-    print("token: " + user_token)
     uri = "https://appinspect.splunk.com/v1/app/validate"
     file_path = "./rabeyta_myapp.tgz"
     app_name = os.path.basename(file_path)
@@ -74,7 +72,6 @@ def validate_app(user_token):
     request_id = response.json().get("request_id")
 
     check_status(request_id, user_token)
-
     get_report(request_id, user_token)
 
 
@@ -89,7 +86,7 @@ def request_login_token(pw):
 def main(argv):
     parser = argparse.ArgumentParser(description='Splunk App Validator')
 
-    parser.add_argument("-p", "--password", dest="user_token",
+    parser.add_argument("-p", "--password", dest="user_pass",
                         help="Splunk user password")
 
     parser.add_argument("-t", "--tag", dest="tags", action="append",
@@ -97,7 +94,7 @@ def main(argv):
 
     args = parser.parse_args(argv)
 
-    token = request_login_token(args.user_token)
+    token = request_login_token(args.user_pass)
 
     validate_app(token)
 
