@@ -8,6 +8,7 @@ from requests.auth import HTTPBasicAuth
 
 
 def check_status(request_id, user_token):
+    print("status: " + user_token)
     uri = "https://appinspect.splunk.com/v1/app/validate/status/" + request_id
 
     report_status_done = 0
@@ -98,7 +99,7 @@ def main(argv):
 
     args = parser.parse_args(argv)
 
-    print(args)
+    print(args.user_token)
 
     validate_app(args.user_token)
 
