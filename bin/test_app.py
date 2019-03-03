@@ -1,4 +1,4 @@
-import getopt
+import argparse
 import sys
 import os
 import time
@@ -54,6 +54,8 @@ def print_report(report):
                                     if mess == "messages":
                                         for n in stuff:
                                             print("\n Error: \n", n["message"])
+                                    if mess == "tags":
+                                        print(stuff)
 
 
 def validate_app(user_token):
@@ -84,17 +86,17 @@ def request_login_token(pw):
 
 
 def main(argv):
-    user_token = ''
-    try:
-        opts, args = getopt.getopt(argv, "hp:o:")
-    except getopt.GetoptError:
-        print('test_app.py -p <password>')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == '-p':
-            user_token = request_login_token(arg)
+    parser = argparse.ArgumentParser(description='Splunk App Validator')
 
-    validate_app(user_token)
+    parser.add_argument("-p", "--password", dest="user_token",
+                        help="Splunk user password")
+
+    parser.add_argument("-t", "--tag", dest="tags", action="append",
+                        help="Appinspect Tag. Multiple Tags supported (i.e. -t Cloud -t splunk_appinspect")
+
+    args = parser.parse_args(argv)
+
+    validate_app(args.user_token)
 
 
 if __name__ == "__main__":
